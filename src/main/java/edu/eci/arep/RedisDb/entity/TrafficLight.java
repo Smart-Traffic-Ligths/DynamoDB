@@ -1,11 +1,16 @@
 package edu.eci.arep.RedisDb.entity;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
+import org.springframework.data.redis.core.index.Indexed;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class TrafficLight implements Serializable {
-	
+@RedisHash("TrafficLight")
+public class TrafficLight{
+	@Id
 	private String traffic_light;
 	private String lights_status;
 	private long duration_lights;
@@ -27,6 +32,9 @@ public class TrafficLight implements Serializable {
 		this.date_day = date_day;
 		this.time_day = time_day;
 	}
+
+	public TrafficLight(){
+	};
 
 	public String getTraffic_light() {
 		return traffic_light;

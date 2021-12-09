@@ -1,7 +1,8 @@
 package edu.eci.arep.RedisDb.controller;
 
 import edu.eci.arep.RedisDb.entity.TrafficLight;
-import edu.eci.arep.RedisDb.repository.TrafficLightRepository;
+import edu.eci.arep.RedisDb.service.RedisRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -10,10 +11,10 @@ import java.util.Map;
 @RequestMapping("/v1/trafficLight")
 public class TrafficLightController {
 
+    private RedisRepository trafficLightRepository;
 
-    private TrafficLightRepository trafficLightRepository;
-
-    public TrafficLightController(TrafficLightRepository trafficLightRepository) {
+    @Autowired
+    public TrafficLightController(RedisRepository trafficLightRepository) {
         this.trafficLightRepository = trafficLightRepository;
     }
 
@@ -23,14 +24,14 @@ public class TrafficLightController {
     }
 
     @GetMapping
-    public Map<String, TrafficLight> findAll(){
+    public Iterable<TrafficLight> findAll(){
+
         return trafficLightRepository.findAll();
     }
 
     @PostMapping
     public void save(@RequestBody TrafficLight trafficLight){
-    	System.out.println(trafficLight.getSpeed());
-        //trafficLightRepository.save(trafficLight);
+        trafficLightRepository.save(trafficLight);
     }
 
     @DeleteMapping("/{id}")
